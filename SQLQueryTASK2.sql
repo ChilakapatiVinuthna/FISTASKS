@@ -81,3 +81,100 @@ select count(*),avg(salary),deptno,job from emp group by deptno,job
 --For each department, list its name and number together with the total salary paid to employees in that department.
 select count(deptno),deptno,ename ,sum(salary) from emp group by deptno
 --Give all the employees in the RESEARCH department a 10% pay rise. Verify that this has been done by listing all their details before and after the rise.
+
+--SET 2
+
+
+
+
+
+
+
+-- Retrieve a list of MANAGERS. 
+
+ select * from EMP where job='MANAGER'
+
+-- Find out the names and salaries of all employees earning more than 1000 per 
+--month. 
+select ename, salary from EMP where salary > 1000
+
+
+-- Display the names and salaries of all employees except JAMES. 
+select ename, salary from EMP where ename != 'JAMES'
+
+
+
+--4. Find out the details of employees whose names begin with ‘S’. 
+select * from EMP where ename like 'S%'
+
+
+--Find out the names of all employees that have ‘A’ anywhere in their name. 
+select ename from EMP where ename like '%A%'
+
+
+-- Find out the names of all employees that have ‘L’ as their third character in 
+--their name.
+select ename from EMP where ename like '___L%'
+
+
+
+--7. Compute daily salary of JONES. 
+select salary/30 as 'DAILY SALARY OF JONES' from EMP where ename = 'JONES'
+
+
+
+--Calculate the total monthly salary of all employees. 
+select sum(salary) as 'TOTAL MONTHLY SALARY OF ALL EMPLOYEES' from EMP
+
+
+
+-- Print the average annual salary . 
+select AVG(salary*12) as 'AVERAGE ANNUAL SALARY' from EMP
+
+
+
+-- Select the name, job, salary, department number of all employees except SALESMAN from department number 30. 
+select ename, job, salary, deptno from EMP where job != 'SALESMAN' OR deptno <> 30;
+
+
+
+--List unique departments of the EMP table. 
+select distinct(e.deptno) as 'DEPARTMENTS',(select dname from DEPT where deptno = e.deptno) 'DEPARTMENT NAME'  from EMP e where deptno is not null;
+
+
+
+--List the name and salary of employees who earn more than 1500 and are in department 10 or 30. Label the columns Employee and Monthly Salary respectively.
+select ename 'EMPLOYEE', salary 'MONTLY SALARY'from EMP where salary > 1500 and deptno in (10, 30)
+
+
+
+-- Display the name, job, and salary of all the employees whose job is MANAGER or ANALYST and their salary is not equal to 1000, 3000, or 5000. 
+select ename , job ,  salary from EMP where job in ('MANAGER', 'ANALYST') AND salary not in 
+(1000, 3000, 5000);
+
+
+
+--Display the name, salary and commission for all employees whose commission amount is greater than their salary increased by 10%. 
+select ename, job, comm 'commission' from EMP where comm > (salary + salary * 0.1);
+
+
+
+--Display the name of all employees who have two Ls in their name and are in department 30 or their manager is 7782. 
+select ename from EMP where ename like '%L%L%' and deptno = 30 or mgr_id = 7782;
+
+
+
+-- Display the names of employees with experience of over 10 years and under 20 yrs.Count the total number of employees. 
+select ename from EMP where DATEDIFF(YEAR, hiredate, GETDATE())  BETWEEN 10 AND 20;
+select COUNT(empno) from EMP where DATEDIFF(YEAR, hiredate, GETDATE())  BETWEEN 10 AND 20;
+
+
+
+-- Retrieve the names of departments in ascending order and their employees in descending order. 
+select ename, dname from EMP e join DEPT d on e.deptno = d.deptno order by dname asc , ename desc;
+
+
+--Find out experience of MILLER. 
+select DATEDIFF(YEAR, hiredate, GETDATE()) 'EXPERIENCE OF MILLER' from EMP where ename='MILLER';
+
+ 
